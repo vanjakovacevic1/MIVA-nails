@@ -24,13 +24,15 @@
     </div>
     <nav class="tabovi">
       <button class="tab aktivan" data-pogled="dan">Raspored</button>
-      <button class="tab" data-pogled="lista">Svi termini <span id="bedzCekanje" class="bedz" hidden></span></button>
+      <button class="tab" data-pogled="lista">Termini</button>
+      <button class="tab" data-pogled="klijenti">Klijenti</button>
+      <button class="tab" data-pogled="zarada">Zarada</button>
     </nav>
   </header>
 
   <main>
     <!-- RASPORED PO DANIMA -->
-    <section id="pogledDan">
+    <section id="pogled-dan">
       <div class="nedelja-nav">
         <button class="ikona-btn" id="prethodna" aria-label="Prethodna nedelja">‹</button>
         <button class="mesec" id="mesec" title="Idi na danas"></button>
@@ -45,8 +47,7 @@
 
       <div class="legenda">
         <span><i class="tacka slobodan"></i>Slobodno</span>
-        <span><i class="tacka na_cekanju"></i>Na čekanju</span>
-        <span><i class="tacka potvrdjen"></i>Potvrđeno</span>
+        <span><i class="tacka rezervisan"></i>Rezervisano</span>
         <span><i class="tacka proslo"></i>Prošlo</span>
       </div>
 
@@ -54,16 +55,31 @@
     </section>
 
     <!-- LISTA SVIH TERMINA -->
-    <section id="pogledLista" hidden>
+    <section id="pogled-lista" hidden>
       <input type="search" id="pretraga" class="pretraga" placeholder="Pretraži po imenu ili telefonu">
       <div class="filteri" id="filteri">
         <button class="filter aktivan" data-filter="aktivni">Predstojeći</button>
-        <button class="filter" data-filter="na_cekanju">Na čekanju</button>
-        <button class="filter" data-filter="potvrdjen">Potvrđeni</button>
-        <button class="filter" data-filter="otkazan">Otkazani</button>
         <button class="filter" data-filter="prosli">Prošli</button>
+        <button class="filter" data-filter="otkazan">Otkazani</button>
       </div>
       <div id="lista"></div>
+    </section>
+
+    <!-- KLIJENTI -->
+    <section id="pogled-klijenti" hidden>
+      <input type="search" id="pretragaKlijenata" class="pretraga" placeholder="Pretraži klijente">
+      <p id="brojKlijenata" class="statistika"></p>
+      <div id="listaKlijenata"></div>
+    </section>
+
+    <!-- ZARADA -->
+    <section id="pogled-zarada" hidden>
+      <div class="nedelja-nav">
+        <button class="ikona-btn" id="zaradaPrethodni" aria-label="Prethodni mesec">‹</button>
+        <button class="mesec" id="mesecZarade" title="Idi na ovaj mesec"></button>
+        <button class="ikona-btn" id="zaradaSledeci" aria-label="Sledeći mesec">›</button>
+      </div>
+      <div id="zaradaSadrzaj"></div>
     </section>
   </main>
 
@@ -81,14 +97,20 @@
           <label>Datum<input type="date" name="datum" required></label>
           <label>Vreme<select name="vreme" required></select></label>
         </div>
-        <label>Ime i prezime klijenta<input name="ime" required autocomplete="off" placeholder="npr. Ana Petrović"></label>
+        <div class="klijent-polje">
+          <label>Klijentkinja <span id="izabranaKlijentkinja" class="izabrana" hidden>✓ iz liste</span>
+            <input name="ime" required autocomplete="off" placeholder="Počni da kucaš ime…">
+          </label>
+          <input type="hidden" name="klijentId">
+          <div id="predlozi" class="predlozi" hidden></div>
+        </div>
         <label>Telefon<input name="telefon" type="tel" inputmode="tel" autocomplete="off" placeholder="06x xxx xxxx"></label>
 
         <div class="usluge-naslov">Usluge <small>(možeš izabrati više)</small></div>
         <div id="uslugeIzbor" class="usluge-izbor"></div>
 
         <label>Napomena<textarea name="napomena" rows="2" placeholder="boja, dizajn, alergije…"></textarea></label>
-        <label class="check"><input type="checkbox" name="potvrdi"> Odmah potvrdi termin</label>
+        <label>Cena (din) <small class="napomena-cena">automatski po cenovniku, možeš da promeniš</small><input name="cena" type="number" inputmode="numeric" min="0" step="50"></label>
       </div>
       <footer class="dlg-dno">
         <div id="rezime" class="rezime"></div>
@@ -101,7 +123,32 @@
     </form>
   </dialog>
 
-  <!-- DETALJI TERMINA -->
+  <!-- FORMA: klijentkinja -->
+  <dialog id="dlgKlijent">
+    <form id="formaKlijent" novalidate>
+      <header class="dlg-vrh">
+        <h2 id="klijentNaslov">Nova klijentkinja</h2>
+        <button type="button" class="ikona-btn" data-zatvori aria-label="Zatvori">✕</button>
+      </header>
+      <div class="dlg-telo">
+        <div class="red2">
+          <label>Ime<input name="ime" required autocomplete="off"></label>
+          <label>Prezime<input name="prezime" autocomplete="off"></label>
+        </div>
+        <label>Telefon<input name="telefon" type="tel" inputmode="tel" autocomplete="off" placeholder="06x xxx xxxx"></label>
+        <label>Napomena<textarea name="napomena" rows="2" placeholder="omiljena boja, alergije…"></textarea></label>
+      </div>
+      <footer class="dlg-dno">
+        <p id="greskaKlijent" class="greska" role="alert"></p>
+        <div class="dugmad">
+          <button type="button" class="btn sek" data-zatvori>Odustani</button>
+          <button type="submit" class="btn">Sačuvaj</button>
+        </div>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- DETALJI TERMINA / KLIJENTKINJE -->
   <dialog id="dlgDetalji">
     <div id="detalji"></div>
   </dialog>
@@ -113,7 +160,7 @@
       <button type="button" class="ikona-btn" data-zatvori aria-label="Zatvori">✕</button>
     </header>
     <div class="dlg-telo">
-      <p class="info">Rezervacije se čuvaju <b>samo na ovom telefonu</b>. Povremeno napravi rezervnu kopiju (npr. pošalji fajl sebi na mejl ili sačuvaj na Google Drive).</p>
+      <p class="info">Termini i klijenti se čuvaju <b>samo na ovom telefonu</b>. Povremeno napravi rezervnu kopiju (npr. pošalji fajl sebi na mejl ili sačuvaj na Google Drive).</p>
       <button class="btn siroko" id="btnIzvoz">Sačuvaj rezervnu kopiju</button>
       <label class="btn sek siroko">Vrati iz rezervne kopije
         <input type="file" id="uvozFajl" accept=".json,application/json" hidden>

@@ -1,6 +1,6 @@
 // Omogućava da aplikacija radi i bez interneta.
 // Kad promeniš neki fajl, povećaj broj verzije (v1 -> v2) da bi telefon povukao novu verziju.
-const VERZIJA = 'miva-v2';
+const VERZIJA = 'miva-v3';
 const FAJLOVI = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {

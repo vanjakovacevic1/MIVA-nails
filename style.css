@@ -53,7 +53,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .tabovi { display: flex; max-width: 640px; margin: 0 auto; }
 .tab {
   flex: 1; background: none; border: 0; color: var(--sivo);
-  padding: 10px 4px 11px; font-size: .74rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  padding: 10px 2px 11px; font-size: .66rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
   border-bottom: 2px solid transparent; margin-bottom: -1px;
 }
 .tab.aktivan { color: var(--tekst); border-bottom-color: var(--zlatna); }
@@ -93,15 +93,14 @@ main { max-width: 640px; margin: 0 auto; padding: 14px 16px; }
 .dan.neradni { opacity: .45; }
 
 .dan-zaglavlje { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-.dan-zaglavlje h2 { margin: 0; font-family: var(--serif); font-size: 1.45rem; font-weight: 600; text-transform: capitalize; }
+.dan-zaglavlje h2 { margin: 0; font-family: var(--serif); font-size: 1.45rem; font-weight: 600; }
 .statistika { margin: 0; color: var(--sivo); font-size: .78rem; }
 
 .legenda { display: flex; flex-wrap: wrap; gap: 14px; font-size: .72rem; color: var(--sivo); margin: 8px 0 14px; }
 .legenda span { display: inline-flex; align-items: center; gap: 6px; }
 .tacka { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid transparent; }
 .tacka.slobodan { background: var(--povrsina); border-color: var(--zlatna); }
-.tacka.na_cekanju { background: var(--roze-jaca); }
-.tacka.potvrdjen { background: var(--zlatna); }
+.tacka.rezervisan { background: var(--roze-jaca); }
 .tacka.proslo { background: var(--linija); }
 
 /* ===== Termini ===== */
@@ -131,18 +130,18 @@ main { max-width: 640px; margin: 0 auto; padding: 14px 16px; }
 .termin .gore { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .termin .ime { font-family: var(--serif); font-weight: 600; font-size: 1.25rem; line-height: 1.2; }
 .termin .opis { font-size: .78rem; color: var(--sivo); }
-.termin.na_cekanju { background: var(--roze); border-color: var(--roze-jaca); }
-.termin.potvrdjen { background: var(--sampanj); border-color: var(--zlatna); }
+.termin.rezervisan { background: var(--roze); border-color: var(--roze-jaca); }
+.termin.rezervisan.prosao { background: var(--povrsina); border-color: var(--linija); box-shadow: none; }
 .termin.otkazan { background: var(--povrsina); border-color: var(--linija); color: var(--sivo); }
 .termin.otkazan .ime { text-decoration: line-through; }
-.termin.prosao { opacity: .55; }
+.termin.prosao { opacity: .5; }
 
 .status {
   font-size: .62rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap;
   text-transform: uppercase; letter-spacing: .12em; color: #fff;
 }
-.status.na_cekanju { background: var(--roze-tekst); }
-.status.potvrdjen { background: var(--zlatna); }
+.status.rezervisan { background: var(--roze-tekst); }
+.status.zavrsen { background: var(--zlatna); }
 .status.otkazan { background: #b9aea8; }
 
 .prazno { text-align: center; color: var(--sivo); padding: 40px 0; font-family: var(--serif); font-size: 1.2rem; }
@@ -160,7 +159,7 @@ main { max-width: 640px; margin: 0 auto; padding: 14px 16px; }
 .filter.aktivan { background: var(--tekst); border-color: var(--tekst); color: var(--krem); }
 .grupa-naslov {
   font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin: 18px 0 8px;
-  text-transform: capitalize; display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 10px;
 }
 .grupa-naslov::after { content: ""; flex: 1; height: 1px; background: var(--linija); }
 #lista .termin { margin-bottom: 6px; }
@@ -272,3 +271,69 @@ label.btn { flex-direction: row; font-size: .78rem; }
 
 /* klasični (ravni) brojevi u serif fontu – da se "11" ne čita kao "II" */
 .dan b, .mesec, .dan-zaglavlje h2, .grupa-naslov, .dlg-vrh h2, .termin .ime { font-variant-numeric: lining-nums; }
+
+/* ===== Iznos na kartici ===== */
+.iznos { font-size: .78rem; font-weight: 600; color: var(--zlatna-tamna); white-space: nowrap; }
+.slot.nastavak.proslo { border-color: transparent; }
+
+/* ===== Izbor klijentkinje u formi ===== */
+.klijent-polje { position: relative; }
+.izabrana { color: var(--zlatna); text-transform: none; letter-spacing: 0; font-weight: 500; margin-left: 6px; }
+.predlozi {
+  margin-top: 4px; border: 1px solid var(--linija); border-radius: 12px; background: var(--povrsina);
+  overflow: hidden; box-shadow: var(--senka);
+}
+.predlog {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%;
+  padding: 11px 14px; border: 0; border-bottom: 1px solid var(--linija); background: none; text-align: left; font-size: .92rem;
+}
+.predlog:active { background: var(--roze); }
+.predlog span { color: var(--sivo); font-size: .8rem; }
+.predlog.novi { color: var(--sivo); font-size: .82rem; border-bottom: 0; background: var(--krem); }
+.predlog.novi b { color: var(--tekst); }
+.napomena-cena { text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+/* ===== Klijenti ===== */
+#brojKlijenata { margin: -4px 0 10px 4px; }
+.klijent {
+  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+  background: var(--povrsina); border: 1px solid var(--linija); border-radius: var(--radijus);
+  padding: 12px 14px; margin-bottom: 6px;
+}
+.klijent:active { background: var(--roze); }
+.inicijali {
+  flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--roze); color: var(--roze-tekst); font-family: var(--sans); font-weight: 500; font-size: .85rem; letter-spacing: .05em;
+  border: 1px solid var(--roze-jaca);
+}
+.klijent-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.klijent-info .ime { font-family: var(--serif); font-weight: 600; font-size: 1.2rem; line-height: 1.2; font-variant-numeric: lining-nums; }
+.klijent-info .opis { font-size: .76rem; color: var(--sivo); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.klijent-broj { text-align: center; font-family: var(--serif); font-size: 1.3rem; font-weight: 600; color: var(--zlatna-tamna); line-height: 1; font-variant-numeric: lining-nums; }
+.klijent-broj small { display: block; font-family: var(--sans); font-size: .58rem; color: var(--sivo); letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; }
+.prazno small { font-family: var(--sans); font-size: .8rem; }
+#detalji .termin { margin-bottom: 6px; }
+
+/* ===== Zarada ===== */
+.kartica-zarada {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center;
+  background: var(--povrsina); border: 1px solid var(--linija); border-radius: 18px; padding: 18px 16px; margin: 10px 0;
+}
+.kartica-zarada.glavna { background: var(--sampanj); border-color: color-mix(in srgb, var(--zlatna) 55%, transparent); }
+.kartica-zarada .oznaka { font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--zlatna-tamna); font-weight: 600; }
+.kartica-zarada .velika { font-family: var(--serif); font-size: 2.4rem; font-weight: 600; line-height: 1.15; font-variant-numeric: lining-nums; }
+.kartica-zarada .mala { font-size: .76rem; color: var(--sivo); }
+.kategorije { background: var(--povrsina); border: 1px solid var(--linija); border-radius: var(--radijus); overflow: hidden; }
+.kat-red { display: flex; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid var(--linija); font-size: .9rem; }
+.kat-red:last-child { border-bottom: 0; }
+.kat-red b { color: var(--zlatna-tamna); font-weight: 600; }
+.dan-zarada {
+  display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; width: 100%; text-align: left;
+  background: var(--povrsina); border: 1px solid var(--linija); border-radius: var(--radijus); padding: 11px 14px; margin-bottom: 6px;
+}
+.dz-datum { font-family: var(--serif); font-weight: 600; font-size: 1.08rem; font-variant-numeric: lining-nums; }
+.dan-zarada b { grid-row: span 2; align-self: center; color: var(--zlatna-tamna); font-weight: 600; }
+.dz-broj { font-size: .74rem; color: var(--sivo); }
+.dan-zarada .traka { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--krem); margin-top: 6px; overflow: hidden; }
+.dan-zarada .traka i { display: block; height: 100%; background: var(--zlatna); border-radius: 2px; }
+.dan-zarada.buduci .traka i { background: var(--roze-jaca); }

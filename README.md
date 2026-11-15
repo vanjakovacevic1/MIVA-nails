@@ -12,7 +12,7 @@
 - `CONFIG`: radno vreme, razmak termina (30 ili 15 min), neradni dani, valuta
 - `USLUGE`: nazivi, trajanje (u minutima) i cena (`cena: 2500`; `null` = ne prikazuje se)
 
-Kad nešto promeniš i ponovo okačiš na GitHub, u `sw.js` promeni `miva-v2` u `miva-v3` (pa v4…), da bi telefon povukao novu verziju.
+Kad nešto promeniš i ponovo okačiš na GitHub, u `sw.js` promeni `miva-v3` u `miva-v4` (pa v5…), da bi telefon povukao novu verziju.
 
 ## Kačenje na GitHub Pages (besplatno)
 1. Napravi nalog na github.com.
