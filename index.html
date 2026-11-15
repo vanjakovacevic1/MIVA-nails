@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MIVA nails</title>
+  <meta name="theme-color" content="#faf6f0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="MIVA nails">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="vrh">
+    <div class="vrh-red">
+      <h1 class="logo"><span class="logo-miva">MIVA</span><span class="logo-nails">nails</span></h1>
+      <button class="ikona-btn" id="btnMeni" aria-label="Podešavanja i rezervna kopija">⋯</button>
+    </div>
+    <nav class="tabovi">
+      <button class="tab aktivan" data-pogled="dan">Raspored</button>
+      <button class="tab" data-pogled="lista">Svi termini <span id="bedzCekanje" class="bedz" hidden></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- RASPORED PO DANIMA -->
+    <section id="pogledDan">
+      <div class="nedelja-nav">
+        <button class="ikona-btn" id="prethodna" aria-label="Prethodna nedelja">‹</button>
+        <button class="mesec" id="mesec" title="Idi na danas"></button>
+        <button class="ikona-btn" id="sledeca" aria-label="Sledeća nedelja">›</button>
+      </div>
+      <div class="nedelja" id="nedelja"></div>
+
+      <div class="dan-zaglavlje">
+        <h2 id="naslovDana"></h2>
+        <p id="statistika" class="statistika"></p>
+      </div>
+
+      <div class="legenda">
+        <span><i class="tacka slobodan"></i>Slobodno</span>
+        <span><i class="tacka na_cekanju"></i>Na čekanju</span>
+        <span><i class="tacka potvrdjen"></i>Potvrđeno</span>
+        <span><i class="tacka proslo"></i>Prošlo</span>
+      </div>
+
+      <div id="termini" class="termini"></div>
+    </section>
+
+    <!-- LISTA SVIH TERMINA -->
+    <section id="pogledLista" hidden>
+      <input type="search" id="pretraga" class="pretraga" placeholder="Pretraži po imenu ili telefonu">
+      <div class="filteri" id="filteri">
+        <button class="filter aktivan" data-filter="aktivni">Predstojeći</button>
+        <button class="filter" data-filter="na_cekanju">Na čekanju</button>
+        <button class="filter" data-filter="potvrdjen">Potvrđeni</button>
+        <button class="filter" data-filter="otkazan">Otkazani</button>
+        <button class="filter" data-filter="prosli">Prošli</button>
+      </div>
+      <div id="lista"></div>
+    </section>
+  </main>
+
+  <button class="fab" id="fab" aria-label="Novi termin">+</button>
+
+  <!-- FORMA: novi / izmena termina -->
+  <dialog id="dlgForma">
+    <form id="forma" novalidate>
+      <header class="dlg-vrh">
+        <h2 id="formaNaslov">Novi termin</h2>
+        <button type="button" class="ikona-btn" data-zatvori aria-label="Zatvori">✕</button>
+      </header>
+      <div class="dlg-telo">
+        <div class="red2">
+          <label>Datum<input type="date" name="datum" required></label>
+          <label>Vreme<select name="vreme" required></select></label>
+        </div>
+        <label>Ime i prezime klijenta<input name="ime" required autocomplete="off" placeholder="npr. Ana Petrović"></label>
+        <label>Telefon<input name="telefon" type="tel" inputmode="tel" autocomplete="off" placeholder="06x xxx xxxx"></label>
+
+        <div class="usluge-naslov">Usluge <small>(možeš izabrati više)</small></div>
+        <div id="uslugeIzbor" class="usluge-izbor"></div>
+
+        <label>Napomena<textarea name="napomena" rows="2" placeholder="boja, dizajn, alergije…"></textarea></label>
+        <label class="check"><input type="checkbox" name="potvrdi"> Odmah potvrdi termin</label>
+      </div>
+      <footer class="dlg-dno">
+        <div id="rezime" class="rezime"></div>
+        <p id="greska" class="greska" role="alert"></p>
+        <div class="dugmad">
+          <button type="button" class="btn sek" data-zatvori>Odustani</button>
+          <button type="submit" class="btn">Sačuvaj</button>
+        </div>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- DETALJI TERMINA -->
+  <dialog id="dlgDetalji">
+    <div id="detalji"></div>
+  </dialog>
+
+  <!-- MENI: rezervna kopija -->
+  <dialog id="dlgMeni">
+    <header class="dlg-vrh">
+      <h2>Podešavanja</h2>
+      <button type="button" class="ikona-btn" data-zatvori aria-label="Zatvori">✕</button>
+    </header>
+    <div class="dlg-telo">
+      <p class="info">Rezervacije se čuvaju <b>samo na ovom telefonu</b>. Povremeno napravi rezervnu kopiju (npr. pošalji fajl sebi na mejl ili sačuvaj na Google Drive).</p>
+      <button class="btn siroko" id="btnIzvoz">Sačuvaj rezervnu kopiju</button>
+      <label class="btn sek siroko">Vrati iz rezervne kopije
+        <input type="file" id="uvozFajl" accept=".json,application/json" hidden>
+      </label>
+      <p class="info malo" id="infoBroj"></p>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
